@@ -1,0 +1,21 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: sandbox-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: shared_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpass
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - proxy-test
+
+volumes:
+  mysql-data:
+
+networks:
+  proxy-test:
+    external: true
