@@ -31,7 +31,6 @@ services:
       - "traefik.http.routers.phpmyadmin.entrypoints=web"
       - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
 
-
 volumes:
   mysql-data:
 

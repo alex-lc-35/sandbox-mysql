@@ -28,11 +28,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.phpmyadmin.rule=Host(`db.rfess.fr`)"
-      - "traefik.http.routers.phpmyadmin.entrypoints=websecure"
-      - "traefik.http.routers.phpmyadmin.tls=true"
+      - "traefik.http.routers.phpmyadmin.entrypoints=web"
       - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
-      - "traefik.http.routers.phpmyadmin.middlewares=auth"
-      - "traefik.http.middlewares.auth.basicauth.users=admin:$2y$05$wnqSpZwdqmSKRzhl5cmbKu3Vn1u8riQP2E9YQ6LWa8nK44jP1sjP6"
 
 volumes:
   mysql-data:
