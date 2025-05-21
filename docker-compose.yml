@@ -15,6 +15,23 @@ services:
     networks:
       - sandbox-network
 
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: sandbox-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: sandbox-mysql
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - sandbox-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.phpmyadmin.rule=Host(`sandbox.db.me`)"
+      - "traefik.http.routers.phpmyadmin.entrypoints=web"
+      - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
+
+
 volumes:
   mysql-data:
 

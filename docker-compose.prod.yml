@@ -3,8 +3,6 @@ services:
     image: mysql:8.0
     container_name: sandbox-mysql
     restart: unless-stopped
-    ports:
-      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -12,8 +10,26 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - mysql-data:/var/lib/mysql
+    ports:
+      - "${MYSQL_PORT}:3306"
     networks:
       - sandbox-network
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: sandbox-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: sandbox-mysql
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - sandbox-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.phpmyadmin.rule=Host(`db.rfess.fr`)"
+      - "traefik.http.routers.phpmyadmin.entrypoints=web"
+      - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
 
 volumes:
   mysql-data:
