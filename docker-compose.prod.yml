@@ -30,6 +30,8 @@ services:
       - "traefik.http.routers.phpmyadmin.rule=Host(`db.rfess.fr`)"
       - "traefik.http.routers.phpmyadmin.entrypoints=web"
       - "traefik.http.services.phpmyadmin.loadbalancer.server.port=80"
+      - "traefik.http.routers.phpmyadmin.middlewares=ipwhitelist"
+      - "traefik.http.middlewares.ipwhitelist.ipallowlist.sourcerange=176.173.202.137"
 
 volumes:
   mysql-data:
